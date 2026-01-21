@@ -44,7 +44,7 @@ const SousaMasterBlock: React.FC<SousaBlockProps> = ({ char, title, contextWords
                         />
                     </div>
                     <input 
-                      type="range" min="-100" max="400" value={settings[char].lsb} 
+                      type="range" min="-50" max="300" value={settings[char].lsb} 
                       onChange={(e) => onUpdate(char, 'lsb', Number(e.target.value))}
                       className="w-full accent-green-500 h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                     />
@@ -62,7 +62,7 @@ const SousaMasterBlock: React.FC<SousaBlockProps> = ({ char, title, contextWords
                         />
                     </div>
                     <input 
-                      type="range" min="-100" max="400" value={settings[char].rsb} 
+                      type="range" min="-50" max="300" value={settings[char].rsb} 
                       onChange={(e) => onUpdate(char, 'rsb', Number(e.target.value))}
                       className="w-full accent-green-500 h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                     />
@@ -391,7 +391,7 @@ export const SousaTuner: React.FC<SousaTunerProps> = ({ settings, onSettingsChan
                                     />
                                 </div>
                                 <input 
-                                    type="range" min="-200" max="500" value={currentLsb}
+                                    type="range" min="-50" max="300" value={currentLsb}
                                     onChange={(e) => updateOverride('lsb', Number(e.target.value))}
                                     className="w-full accent-green-500 h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                                 />
@@ -409,7 +409,7 @@ export const SousaTuner: React.FC<SousaTunerProps> = ({ settings, onSettingsChan
                                     />
                                 </div>
                                 <input 
-                                    type="range" min="-200" max="500" value={currentRsb}
+                                    type="range" min="-50" max="300" value={currentRsb}
                                     onChange={(e) => updateOverride('rsb', Number(e.target.value))}
                                     className="w-full accent-green-500 h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                                 />

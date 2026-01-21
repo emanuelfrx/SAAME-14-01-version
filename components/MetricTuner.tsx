@@ -60,7 +60,7 @@ const TunerBlock: React.FC<TunerBlockProps> = ({ char, title, testWords, setting
                           />
                       </div>
                       <input 
-                        type="range" min="-200" max="500" value={(settings[char] as any).lsb} 
+                        type="range" min="-50" max="300" value={(settings[char] as any).lsb} 
                         onChange={(e) => onUpdate(char, 'lsb', Number(e.target.value))}
                         className="w-full accent-blue-500 h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                       />
@@ -78,7 +78,7 @@ const TunerBlock: React.FC<TunerBlockProps> = ({ char, title, testWords, setting
                           />
                       </div>
                       <input 
-                        type="range" min="-200" max="500" value={(settings[char] as any).rsb} 
+                        type="range" min="-50" max="300" value={(settings[char] as any).rsb} 
                         onChange={(e) => onUpdate(char, 'rsb', Number(e.target.value))}
                         className="w-full accent-blue-500 h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                       />
@@ -353,7 +353,7 @@ export const MetricTuner: React.FC<MetricTunerProps> = ({ settings, onSettingsCh
                                     />
                                 </div>
                                 <input 
-                                    type="range" min="-200" max="500" value={currentOverrideMetrics.lsb}
+                                    type="range" min="-50" max="300" value={currentOverrideMetrics.lsb}
                                     onChange={(e) => updateOverride('lsb', Number(e.target.value))}
                                     className="w-full accent-blue-500 h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                                 />
@@ -371,7 +371,7 @@ export const MetricTuner: React.FC<MetricTunerProps> = ({ settings, onSettingsCh
                                     />
                                 </div>
                                 <input 
-                                    type="range" min="-200" max="500" value={currentOverrideMetrics.rsb}
+                                    type="range" min="-50" max="300" value={currentOverrideMetrics.rsb}
                                     onChange={(e) => updateOverride('rsb', Number(e.target.value))}
                                     className="w-full accent-blue-500 h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer"
                                 />

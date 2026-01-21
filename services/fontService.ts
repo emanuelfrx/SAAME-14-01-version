@@ -346,7 +346,7 @@ export const calculateSousaDefaults = (font: OpenTypeFont) => {
     const O = calculateHarmonicSpacing(font, 'O');
 
     return {
-        n: { lsb: n, rsb: Math.round(n * 0.95) }, 
+        n: { lsb: n, rsb: n }, 
         o: { lsb: o, rsb: o }, 
         H: { lsb: H, rsb: H }, 
         O: { lsb: O, rsb: O }  
@@ -484,6 +484,7 @@ export const applyTracyMethod = (font: OpenTypeFont, settings: TracySettings): v
     
     const valMoreN = Math.round(nStem * 1.15); 
     const valLessO = Math.round(oRound * 0.9);
+    const valMoreO = Math.round(oRound * 1.10);
     const valLowMin = Math.max(5, Math.round(nStem * 0.25));
     const valLowVisual = Math.round((nStem + oRound) / 2);
 
@@ -491,8 +492,8 @@ export const applyTracyMethod = (font: OpenTypeFont, settings: TracySettings): v
     applyRule('c', oRound, valLessO);     
     applyRule('d', oRound, nStem);        
     applyRule('e', oRound, valLessO);     
-    applyRule('f', nStem, valLowMin);     
-    applyRule('g', oRound, valLowVisual); 
+    applyRule('f', valLowMin, valLowMin);     
+    applyRule('g', oRound, nStem); 
 
     applyRule('h', valMoreN, nArch);      
     applyRule('i', valMoreN, nStem);      
@@ -556,14 +557,14 @@ export const TOPOLOGY: Record<string, { l: 'S'|'R'|'A'|'V', r: 'S'|'R'|'A'|'V' }
     // Lowercase
     'a': { l: 'R', r: 'S' }, 
     'b': { l: 'S', r: 'R' },
-    'c': { l: 'R', r: 'V' },
+    'c': { l: 'R', r: 'R' },
     'd': { l: 'R', r: 'S' },
-    'e': { l: 'R', r: 'V' },
-    'f': { l: 'S', r: 'V' }, 
-    'g': { l: 'R', r: 'V' },
+    'e': { l: 'R', r: 'R' },
+    'f': { l: 'V', r: 'V' }, 
+    'g': { l: 'R', r: 'S' },
     'h': { l: 'S', r: 'A' }, 
     'i': { l: 'S', r: 'S' },
-    'j': { l: 'V', r: 'V' }, 
+    'j': { l: 'S', r: 'S' }, 
     'k': { l: 'S', r: 'V' },
     'l': { l: 'S', r: 'S' },
     'm': { l: 'S', r: 'A' },

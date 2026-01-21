@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { FontState, MethodType } from '../types';
-import { Layers, Type, AlignJustify, Download, BarChart2, Columns } from 'lucide-react';
+import { Layers, Type, AlignJustify, Download, BarChart2, Columns, ArrowUpDown } from 'lucide-react';
 import { calculateAverageSB, downloadFont, getCharMetrics, generateFontFaceCSS } from '../services/fontService';
 import { SpacingDiagram } from './SpacingDiagram';
 import { SousaAnalysisView } from './SousaAnalysisView';
@@ -83,6 +83,7 @@ const RemainingGlyphsView = ({ font, method }: { font: FontState | null, method:
 export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompareMode = false, customLabels }) => {
   const [testText, setTestText] = useState("HHOOHOH\nnnoonon\nminimum");
   const [fontSize, setFontSize] = useState(120);
+  const [lineHeight, setLineHeight] = useState(1.5);
   const [viewMode, setViewMode] = useState<'stack' | 'overlay' | 'metrics' | 'side-by-side'>('side-by-side');
   
   const originalFont = fonts[MethodType.ORIGINAL];
@@ -121,7 +122,7 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
       // Default fallback
       const empty = { 
           grid: '', 
-          lhPx: fontSize * 1.5, 
+          lhPx: fontSize * lineHeight, 
           refBaseline: 0, 
           expCorrectionY: 0 
       };
@@ -129,7 +130,7 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
       if (!originalFont?.metrics) return empty;
 
       // 1. Constants
-      const LH_RATIO = 1.5;
+      const LH_RATIO = lineHeight;
       const lhPx = fontSize * LH_RATIO;
       
       // 2. Reference Metrics (The Source of Truth for the Grid)
@@ -412,6 +413,21 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
                 <span className="text-xs text-gray-400">px</span>
             </div>
             
+            {/* Line Height Control */}
+            <div className="flex items-center gap-2 px-2 bg-gray-700/50 rounded p-1">
+                <ArrowUpDown className="w-4 h-4 text-gray-400" />
+                <input 
+                    type="number"
+                    step="0.1" 
+                    min="0.8"
+                    max="3.0"
+                    value={lineHeight} 
+                    onChange={(e) => setLineHeight(Number(e.target.value))}
+                    className="w-16 bg-gray-700 border border-gray-600 rounded px-1 text-sm text-center text-white"
+                />
+                <span className="text-xs text-gray-400">em</span>
+            </div>
+
             <div className="flex gap-1 bg-gray-700/50 rounded p-1">
                  <button 
                     onClick={() => setViewMode('side-by-side')}
@@ -478,7 +494,7 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
                      </div>
                      <div className="p-6 md:p-8 flex-1 overflow-y-auto">
                         {/* Added explicit line-height to match metrics logic even in paragraph view */}
-                        <p style={{ fontFamily: originalFont?.fullFontFamily || 'serif', fontSize: `${fontSize}px`, lineHeight: 1.5 }} className="text-gray-300 whitespace-pre-wrap break-words">
+                        <p style={{ fontFamily: originalFont?.fullFontFamily || 'serif', fontSize: `${fontSize}px`, lineHeight: lineHeight }} className="text-gray-300 whitespace-pre-wrap break-words">
                             {testText}
                         </p>
                      </div>
@@ -493,7 +509,7 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
                          <button onClick={() => handleExport(MethodType.TRACY)} className="opacity-50 hover:opacity-100"><Download className={`w-3 h-3 ${isCompareMode ? 'text-cyan-400' : 'text-pink-400'}`} /></button>
                      </div>
                      <div className="p-6 md:p-8 flex-1 overflow-y-auto">
-                        <p style={{ fontFamily: tracyFont?.fullFontFamily || 'serif', fontSize: `${fontSize}px`, lineHeight: 1.5 }} className="text-gray-200 whitespace-pre-wrap break-words">
+                        <p style={{ fontFamily: tracyFont?.fullFontFamily || 'serif', fontSize: `${fontSize}px`, lineHeight: lineHeight }} className="text-gray-200 whitespace-pre-wrap break-words">
                             {testText}
                         </p>
                      </div>
@@ -507,7 +523,7 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
                              <button onClick={() => handleExport(MethodType.SOUSA)} className="opacity-50 hover:opacity-100"><Download className="w-3 h-3 text-cyan-400" /></button>
                          </div>
                          <div className="p-6 md:p-8 flex-1 overflow-y-auto">
-                            <p style={{ fontFamily: sousaFont?.fullFontFamily || 'serif', fontSize: `${fontSize}px`, lineHeight: 1.5 }} className="text-gray-200 whitespace-pre-wrap break-words">
+                            <p style={{ fontFamily: sousaFont?.fullFontFamily || 'serif', fontSize: `${fontSize}px`, lineHeight: lineHeight }} className="text-gray-200 whitespace-pre-wrap break-words">
                                 {testText}
                             </p>
                          </div>
@@ -526,7 +542,7 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
                              </h4>
                              <button onClick={() => handleExport(MethodType.ORIGINAL)} className="text-xs text-gray-400 hover:text-white flex gap-1 items-center bg-gray-800 px-2 py-1 rounded border border-gray-700"><Download className="w-3 h-3"/> OTF</button>
                         </div>
-                        <p style={{ fontFamily: originalFont.fullFontFamily, fontSize: `${fontSize}px`, lineHeight: 1.5 }} className="text-white opacity-90 break-words whitespace-pre-wrap">
+                        <p style={{ fontFamily: originalFont.fullFontFamily, fontSize: `${fontSize}px`, lineHeight: lineHeight }} className="text-white opacity-90 break-words whitespace-pre-wrap">
                             {testText}
                         </p>
                     </div>
@@ -540,7 +556,7 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
                              </h4>
                              <button onClick={() => handleExport(MethodType.TRACY)} className={`text-xs hover:text-white flex gap-1 items-center bg-gray-800 px-2 py-1 rounded border border-gray-700 ${isCompareMode ? 'text-cyan-400' : 'text-pink-400'}`}><Download className="w-3 h-3"/> OTF</button>
                         </div>
-                        <p style={{ fontFamily: tracyFont.fullFontFamily, fontSize: `${fontSize}px`, lineHeight: 1.5 }} className="text-white break-words whitespace-pre-wrap">
+                        <p style={{ fontFamily: tracyFont.fullFontFamily, fontSize: `${fontSize}px`, lineHeight: lineHeight }} className="text-white break-words whitespace-pre-wrap">
                             {testText}
                         </p>
                     </div>
@@ -553,7 +569,7 @@ export const AnalysisCanvas: React.FC<AnalysisCanvasProps> = ({ fonts, isCompare
                              </h4>
                              <button onClick={() => handleExport(MethodType.SOUSA)} className="text-xs text-cyan-400 hover:text-white flex gap-1 items-center bg-gray-800 px-2 py-1 rounded border border-gray-700"><Download className="w-3 h-3"/> OTF</button>
                         </div>
-                        <p style={{ fontFamily: sousaFont.fullFontFamily, fontSize: `${fontSize}px`, lineHeight: 1.5 }} className="text-white break-words whitespace-pre-wrap">
+                        <p style={{ fontFamily: sousaFont.fullFontFamily, fontSize: `${fontSize}px`, lineHeight: lineHeight }} className="text-white break-words whitespace-pre-wrap">
                             {testText}
                         </p>
                     </div>

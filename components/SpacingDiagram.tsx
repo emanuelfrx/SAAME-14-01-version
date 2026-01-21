@@ -72,7 +72,7 @@ export const SpacingDiagram: React.FC<SpacingDiagramProps> = ({ font, method, ca
           if (type === 'R') {
                // Expect o
                if (Math.abs(val - o) <= tol) return { label: 'o', color: 'text-red-400' };
-               if (val < o) return { label: '<o', color: 'text-red-300' };
+               if (val < o) return { label: '>o', color: 'text-red-300' };
           }
           if (type === 'V') {
               return { label: '*', color: 'text-yellow-400' };
